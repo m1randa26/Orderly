@@ -6,8 +6,8 @@ const theme = createTheme({
         default: '#111315', // Color de fondo global
       },
       text: {
-        primary: '#ffffff', // Color del texto principal
-        secondary: '#b0b0b0', // Color del texto secundario
+        primary: '#111315', // Color del texto principal
+        secondary: '#111315', // Color del texto secundario
       },
     },
     typography: {
