@@ -2,12 +2,9 @@ import React, { useState, useEffect  } from "react";
 import { createChart } from 'lightweight-charts';
 import { Button,  ButtonGroup, useTheme,} from '@mui/material';
 
-import {Box, Grid, Card, Typography, CardContent, IconButton, MenuItem, Select, List, ListItem, ListItemText,
+import {Box, Grid, Card, Typography, CardContent, List, ListItemText,
   ListItemButton,  ListItemIcon, Divider, 
 } from "@mui/material";
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SearchIcon from "@mui/icons-material/Search";
 import TableBarIcon from '@mui/icons-material/TableBar';
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
