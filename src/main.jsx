@@ -9,6 +9,7 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme.js';
+import Login from './components/Login/Login.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
