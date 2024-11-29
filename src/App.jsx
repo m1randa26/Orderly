@@ -1,4 +1,4 @@
-import { Box, Container, Paper, Typography, Divider, Button, IconButton, DialogTitle, DialogContent, TextField, DialogActions, Dialog } from '@mui/material';
+import { Box, Container, Paper, Typography, Divider, Button, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 import './App.css';
 import Category from './components/Category/Category';
 import Dish from './components/Dish/Dish';
@@ -35,84 +35,74 @@ const menuItems = [
   { name: "Ceviche de camarón", price: "$140" }
 ];
 
-const orders = [
-  { id: 1, name: "Roast chicken", quantity: 2, price: 25.50 },
-  { id: 2, name: "Red caviar", quantity: 3, price: 36.90 },
-  { id: 3, name: "German sausage", quantity: 1, price: 5.90 },
-  { id: 4, name: "Irish cream coffee", quantity: 1, price: 4.20 },
-  { id: 5, name: "Caesar salad", quantity: 2, price: 12.50 },
-  { id: 6, name: "Grilled salmon", quantity: 1, price: 15.30 }
-];
-
 const App = () => {
-  const subtotal = orders.reduce((acc, item) => acc + item.price, 0);
-  const tax = subtotal * 0.10;
-  const total = subtotal + tax;
+  const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleAddDish = (name) => {
+    const existingDish = orders.find(order => order.name === name);
+    if (existingDish) {
+      setOrders(orders.map(order =>
+        order.name === name ? { ...order, quantity: order.quantity + 1 } : order
+      ));
+    } else {
+      setOrders([...orders, { id: name, name, quantity: 1, price: menuItems.find(item => item.name === name).price }]);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleRemoveDish = (name) => {
+    setOrders(prevOrders => {
+      // Verifica si el platillo ya existe en los pedidos
+      const updatedOrders = prevOrders.map(order =>
+        order.name === name && order.quantity > 0
+          ? { ...order, quantity: order.quantity - 1 } // Disminuir cantidad si es mayor que 0
+          : order
+      ).filter(order => order.quantity > 0); // Eliminar platillo cuando la cantidad llega a 0
+  
+      return updatedOrders;
+    });
   };
 
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const subtotal = orders.reduce((acc, item) => acc + parseFloat(item.price.slice(1)) * item.quantity, 0);
+  const tax = subtotal * 0.10;
+  const total = subtotal + tax;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column", md: "row" },
-        gap: 2
-      }}
-    >
+    <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2 }}>
       {/* Contenido Principal */}
       <Container sx={{ flexGrow: 1 }}>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-            gap: 2,
-            mt: 5
-          }}
-        >
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' }, gap: 2, mt: 5 }}>
           {categories.map(category => (
-            <Category
-              name={category.name}
-              totalItems={category.total}
-              color={category.color}
-              key={category.name}
-            />
+            <Category name={category.name} totalItems={category.total} color={category.color} key={category.name} />
           ))}
         </Box>
         <Divider orientation='horizontal' sx={{ bgcolor: "#2d2d2d", mt: 5 }} />
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-            gap: 2,
-            mt: 5
-          }}
-        >
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' }, gap: 2, mt: 5 }}>
           {menuItems.map(item => (
-            <Dish name={item.name} price={item.price} key={item.name} />
+            <Dish
+              name={item.name}
+              price={item.price}
+              key={item.name}
+              onAddDish={handleAddDish}
+              onRemoveDish={handleRemoveDish}
+              quantity={orders.find(order => order.name === item.name)?.quantity || 0}
+            />
           ))}
         </Box>
       </Container>
 
       {/* Resumen del Pedido */}
-      <Paper
-        elevation={3}
-        sx={{
-          width: { xs: "100%", md: 350 },
-          bgcolor: "#1c1c1e",
-          color: "white",
-          padding: 2,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <Paper elevation={3} sx={{
+        width: { xs: "100%", md: 350 },
+        bgcolor: "#1c1c1e",
+        color: "white",
+        padding: 2,
+        display: "flex",
+        flexDirection: "column",
+      }}>
         {/* Encabezado */}
         <Box>
           <Box sx={{
@@ -144,27 +134,28 @@ const App = () => {
           }}
         >
           {orders.map((order) => (
-            <Box
-              key={order.id}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                bgcolor: "#2c2c2e",
-                borderRadius: 1,
-                padding: 1,
-                mb: 1,
-              }}
-            >
-              <Typography variant="body1">
-                {order.name} x{order.quantity}
-              </Typography>
-              <Typography variant="body1">${order.price.toFixed(2)}</Typography>
-              <IconButton size="small" color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Box>
-          ))}
+  <Box
+    key={order.id}
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      bgcolor: "#2c2c2e",
+      borderRadius: 1,
+      padding: 1,
+      mb: 1,
+    }}
+  >
+    <Typography variant="body1">
+      {order.name} x{order.quantity}
+    </Typography>
+    <Typography variant="body1">${(parseFloat(order.price.slice(1)) * order.quantity).toFixed(2)}</Typography>
+    {/* Aquí agregamos el onClick */}
+    <IconButton size="small" color="error" onClick={() => handleRemoveDish(order.name)}>
+      <DeleteIcon />
+    </IconButton>
+  </Box>
+))}
         </Box>
 
         <Divider sx={{ my: 2, bgcolor: "#444" }} />
@@ -191,6 +182,8 @@ const App = () => {
           Place Order
         </Button>
       </Paper>
+
+      {/* Dialogo para ingresar el número de mesa */}
       <Dialog
         open={open}
         onClose={handleClose}
