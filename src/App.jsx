@@ -1,9 +1,10 @@
-import { Box, Container, Paper, Typography, Divider, Button, IconButton } from '@mui/material';
+import { Box, Container, Paper, Typography, Divider, Button, IconButton, DialogTitle, DialogContent, TextField, DialogActions, Dialog } from '@mui/material';
 import './App.css';
 import Category from './components/Category/Category';
 import Dish from './components/Dish/Dish';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useState } from 'react';
 
 const categories = [
   { name: "Desayunos", total: 13, color: "#cfdddb" },
@@ -47,6 +48,16 @@ const App = () => {
   const subtotal = orders.reduce((acc, item) => acc + item.price, 0);
   const tax = subtotal * 0.10;
   const total = subtotal + tax;
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
     <Box
@@ -113,7 +124,7 @@ const App = () => {
             <Typography variant="h6">
               Table 5
             </Typography>
-            <IconButton aria-label='editar'>
+            <IconButton aria-label='editar' onClick={handleClickOpen}>
               <EditIcon sx={{ color: "#fff" }} />
             </IconButton>
           </Box>
@@ -180,6 +191,40 @@ const App = () => {
           Place Order
         </Button>
       </Paper>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries(formData.entries());
+            const email = formJson.email;
+            console.log(email);
+            handleClose();
+          },
+        }}
+      >
+        <DialogTitle>Ingresa el número de mesa</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="tableNumber"
+            name="tableNumber"
+            label="Número de mesa"
+            type="number"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button type="submit">Aceptar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
