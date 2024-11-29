@@ -1,10 +1,10 @@
-import { Box, Container, Paper, Typography, Divider, Button, IconButton, DialogTitle, DialogContent, TextField, DialogActions, Dialog } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 import './App.css';
-import Category from './components/Category/Category';
-import Dish from './components/Dish/Dish';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
+import CategoryGrid from './components/Category/CategoryGrid';
+import DishGrid from './components/Dish/DishGrid';
+import OrderSummary from './components/OrderSummary';
+import TableDialog from './components/TableDialog';
 
 const categories = [
   { name: "Desayunos", total: 13, color: "#cfdddb" },
@@ -45,186 +45,26 @@ const orders = [
 ];
 
 const App = () => {
-  const subtotal = orders.reduce((acc, item) => acc + item.price, 0);
-  const tax = subtotal * 0.10;
-  const total = subtotal + tax;
   const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
 
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
-        gap: 2
+        gap: 2,
       }}
     >
-      {/* Contenido Principal */}
       <Container sx={{ flexGrow: 1 }}>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-            gap: 2,
-            mt: 5
-          }}
-        >
-          {categories.map(category => (
-            <Category
-              name={category.name}
-              totalItems={category.total}
-              color={category.color}
-              key={category.name}
-            />
-          ))}
-        </Box>
-        <Divider orientation='horizontal' sx={{ bgcolor: "#2d2d2d", mt: 5 }} />
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr 1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-            gap: 2,
-            mt: 5
-          }}
-        >
-          {menuItems.map(item => (
-            <Dish name={item.name} price={item.price} key={item.name} />
-          ))}
-        </Box>
+        <CategoryGrid categories={categories} />
+        <Divider sx={{ bgcolor: "#2d2d2d", mt: 5 }} />
+        <DishGrid menuItems={menuItems} />
       </Container>
-
-      {/* Resumen del Pedido */}
-      <Paper
-        elevation={3}
-        sx={{
-          width: { xs: "100%", md: 350 },
-          bgcolor: "#1c1c1e",
-          color: "white",
-          padding: 2,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {/* Encabezado */}
-        <Box>
-          <Box sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 1
-          }}>
-            <Typography variant="h6">
-              Table 5
-            </Typography>
-            <IconButton aria-label='editar' onClick={handleClickOpen}>
-              <EditIcon sx={{ color: "#fff" }} />
-            </IconButton>
-          </Box>
-          <Typography variant="subtitle2" color="gray">
-            Leslie K.
-          </Typography>
-        </Box>
-
-        <Divider sx={{ my: 2, bgcolor: "#444" }} />
-
-        {/* Lista de pedidos con scroll */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            maxHeight: 300, // Altura máxima del área con scroll
-            overflow: "auto",
-          }}
-        >
-          {orders.map((order) => (
-            <Box
-              key={order.id}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                bgcolor: "#2c2c2e",
-                borderRadius: 1,
-                padding: 1,
-                mb: 1,
-              }}
-            >
-              <Typography variant="body1">
-                {order.name} x{order.quantity}
-              </Typography>
-              <Typography variant="body1">${order.price.toFixed(2)}</Typography>
-              <IconButton size="small" color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Box>
-          ))}
-        </Box>
-
-        <Divider sx={{ my: 2, bgcolor: "#444" }} />
-
-        {/* Totales */}
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="body2">Subtotal</Typography>
-            <Typography variant="body2">${subtotal.toFixed(2)}</Typography>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="body2">Tax 10%</Typography>
-            <Typography variant="body2">${tax.toFixed(2)}</Typography>
-          </Box>
-          <Divider sx={{ my: 1, bgcolor: "#444" }} />
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="h6">Total</Typography>
-            <Typography variant="h6">${total.toFixed(2)}</Typography>
-          </Box>
-        </Box>
-
-        {/* Botón de acción */}
-        <Button variant="contained" color="primary" fullWidth>
-          Place Order
-        </Button>
-      </Paper>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: 'form',
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
-      >
-        <DialogTitle>Ingresa el número de mesa</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="tableNumber"
-            name="tableNumber"
-            label="Número de mesa"
-            type="number"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button type="submit">Aceptar</Button>
-        </DialogActions>
-      </Dialog>
+      <OrderSummary
+        orders={orders}
+        openDialog={() => setOpen(true)}
+      />
+      <TableDialog open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };
