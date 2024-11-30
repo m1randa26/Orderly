@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import { Box, Paper, Typography } from "@mui/material"
-import FreeBreakfastIcon from '@mui/icons-material/FreeBreakfast';
 
-const Category = ({ name, totalItems, color }) => {
+const Category = ({ name, totalItems, color, icon }) => {
     return (
         <Paper
-            elevation="2"
-            sx={{ bgcolor: color }}>
+            elevation={2}
+            sx={{
+                bgcolor: color,
+                cursor: "pointer",
+                "&:hover": {
+                    opacity: 0.7
+                }
+            }}>
             <Box
                 sx={{
                     display: "flex",
@@ -16,12 +21,12 @@ const Category = ({ name, totalItems, color }) => {
                     height: { xs: "auto", sm: "150px", md: "150px" },
                     padding: 2,
                 }}>
-                <FreeBreakfastIcon />
+                {icon}
                 <Typography variant='h5'>
                     {name}
                 </Typography>
-                <Typography variant='subtitle1'>
-                    {totalItems}
+                <Typography variant='subtitle1' sx={{ color: "#989898" }}>
+                    {totalItems + " items"}
                 </Typography>
             </Box>
         </Paper>
@@ -31,7 +36,8 @@ const Category = ({ name, totalItems, color }) => {
 Category.propTypes = {
     name: PropTypes.string.isRequired,
     totalItems: PropTypes.number.isRequired,
-    color: PropTypes.string.isRequired
+    color: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired
 };
 
 export default Category

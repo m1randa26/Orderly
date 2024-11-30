@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 
 const Dish = ({ name, price, onAddDish, onRemoveDish, quantity }) => {
   return (
-    <Paper elevation="2" sx={{ bgcolor: "#2d2d2d", display: "flex", justifyContent: "center" }}>
+    <Paper elevation={2}
+      sx={{
+        bgcolor: "#2d2d2d",
+        display: "flex",
+        justifyContent: "center"
+      }}>
       <Box
         sx={{
           display: "flex",
@@ -16,7 +21,7 @@ const Dish = ({ name, price, onAddDish, onRemoveDish, quantity }) => {
         <Typography variant="h6" sx={{ color: "#fff" }}>
           {name}
         </Typography>
-        <Typography variant="subtitle2" sx={{ color: "#989898" }}>
+        <Typography variant="subtitle1" sx={{ color: "#989898" }}>
           {price}
         </Typography>
         <Box
