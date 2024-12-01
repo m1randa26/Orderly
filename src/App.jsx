@@ -24,6 +24,7 @@ const iconMap = {
 const App = () => {
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
+  const [savedName, setSavedName] = useState("Nombre");
 
   const handleAddDish = (name) => {
     const existingDish = orders.find(order => order.name === name);
@@ -41,6 +42,10 @@ const App = () => {
       .map(order => order.name === name ? { ...order, quantity: order.quantity - 1 } : order)
       .filter(order => order.quantity > 0)
     );
+  };
+
+  const handleSaveValue = (value) => {
+    setSavedName(value);
   };
 
   const subtotal = orders.reduce((acc, item) => acc + parseFloat(item.price.slice(1)) * item.quantity, 0);
@@ -99,8 +104,9 @@ const App = () => {
         total={total}
         onEditName={() => setOpen(true)}
         onRemoveDish={handleRemoveDish}
+        name={savedName}
       />
-      <TableDialog open={open} onClose={() => setOpen(false)} />
+      <TableDialog open={open} onClose={() => setOpen(false)} onSave={handleSaveValue} />
     </Box>
   );
 };

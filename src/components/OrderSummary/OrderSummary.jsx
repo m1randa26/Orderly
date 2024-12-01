@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 
-const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName }) => {
+const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, name }) => {
   return (
     <Paper elevation={3} sx={{
       width: { xs: "100%", md: 350 },
@@ -22,7 +22,7 @@ const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName }
             alignItems: "center",
             gap: 1
           }}>
-          <Typography variant="subtitle1" color="gray">Leslie K.</Typography>
+          <Typography variant="subtitle1" color="gray">{name}</Typography>
           <IconButton onClick={onEditName}>
             <EditIcon sx={{ color: "#fff" }} />
           </IconButton>
@@ -92,7 +92,8 @@ OrderSummary.propTypes = {
   tax: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   onRemoveDish: PropTypes.func.isRequired,
-  onEditName: PropTypes.func.isRequired
+  onEditName: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default OrderSummary;

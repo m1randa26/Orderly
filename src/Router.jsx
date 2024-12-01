@@ -5,6 +5,7 @@ import MeseroScreen from './App.jsx';
 import AdminScreen from './pages/Admin.jsx';  // Página para ADMIN
 import Tables from './pages/Tables.jsx';
 import App from './App.jsx';
+import Orders from './pages/Orders.jsx';
 
 const AppRouter = () => {
   return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
 
         <Route path="/app" element={<App />} />
         <Route path="/tables" element={<Tables />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </Router>
   );
