@@ -16,16 +16,16 @@ const TableDialog = ({ open, onClose }) => (
       },
     }}
   >
-    <DialogTitle>Ingresa el número de mesa</DialogTitle>
+    <DialogTitle>Ingresa el nombre del mesero</DialogTitle>
     <DialogContent>
       <TextField
         autoFocus
         required
         margin="dense"
-        id="tableNumber"
-        name="tableNumber"
-        label="Número de mesa"
-        type="number"
+        id="name"
+        name="name"
+        label="Nombre"
+        type="text"
         fullWidth
         variant="standard"
       />

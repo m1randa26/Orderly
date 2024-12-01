@@ -1,9 +1,9 @@
 import { Box, Paper, Divider, Typography, IconButton, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import PropTypes from 'prop-types';
+import EditIcon from '@mui/icons-material/Edit';
 
-const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onClickEditTable }) => {
+const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName }) => {
   return (
     <Paper elevation={3} sx={{
       width: { xs: "100%", md: 350 },
@@ -14,13 +14,19 @@ const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onClickEditT
       flexDirection: "column",
     }}>
       <Box>
-        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-          <Typography variant="h6">Table 5</Typography>
-          <IconButton onClick={onClickEditTable}>
+        <Typography variant="h6">Table 5</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 1
+          }}>
+          <Typography variant="subtitle1" color="gray">Leslie K.</Typography>
+          <IconButton onClick={onEditName}>
             <EditIcon sx={{ color: "#fff" }} />
           </IconButton>
         </Box>
-        <Typography variant="subtitle2" color="gray">Leslie K.</Typography>
       </Box>
       <Divider sx={{ my: 2, bgcolor: "#444" }} />
       <Box sx={{
@@ -86,7 +92,7 @@ OrderSummary.propTypes = {
   tax: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   onRemoveDish: PropTypes.func.isRequired,
-  onClickEditTable: PropTypes.func.isRequired,
+  onEditName: PropTypes.func.isRequired
 };
 
 export default OrderSummary;

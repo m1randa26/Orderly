@@ -3,12 +3,12 @@ import { useState } from 'react';
 import Category from './components/Category/Category';
 import Dish from './components/Dish/Dish';
 import OrderSummary from './components/OrderSummary/OrderSummary';
-import TableDialog from './components/TableDialog/TableDialog';
 import categories from './data/categories';
 import menuItems from './data/menuItems';
 import { EggAlt, SoupKitchen,
   RamenDining, Cookie, Liquor, LocalDrink, Restaurant, MenuBookSharp
 } from '@mui/icons-material';
+import TableDialog from './components/TableDialog';
 
 const iconMap = {
   "Breakfast": <EggAlt />,
@@ -97,7 +97,7 @@ const App = () => {
         subtotal={subtotal}
         tax={tax}
         total={total}
-        onClickEditTable={() => setOpen(true)}
+        onEditName={() => setOpen(true)}
         onRemoveDish={handleRemoveDish}
       />
       <TableDialog open={open} onClose={() => setOpen(false)} />
