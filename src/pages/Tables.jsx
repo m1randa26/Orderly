@@ -1,25 +1,26 @@
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState, useEffect } from "react";  // Importar useEffect
+import { useState, useEffect } from "react";  
 import Table from "../components/Table/Table";
-import createApiUrl from "../api"; // Asegúrate de que este archivo api.js esté bien configurado
+import createApiUrl from "../api"; 
+import { useNavigate } from "react-router-dom";  // Importar useNavigate
 
 const Tables = () => {
   const [selectedTable, setSelectedTable] = useState(null);
-  const [mesas, setMesas] = useState([]);  // Estado para almacenar las mesas obtenidas del backend
+  const [mesas, setMesas] = useState([]);  
+  const navigate = useNavigate();  // Inicializar el hook de navegación
 
-  // Fetch de las mesas al cargar el componente
   useEffect(() => {
     const fetchMesas = async () => {
       try {
         const response = await fetch(createApiUrl('mesas'));
         const data = await response.json();
-        setMesas(data);  // Guardar las mesas en el estado
+        setMesas(data);  
       } catch (error) {
         console.error("Error fetching tables:", error);
       }
     };
 
-    fetchMesas();  // Llamar a la función fetchMesas
+    fetchMesas();  
   }, []);
 
   const handleTableClick = (id) => {
@@ -27,6 +28,17 @@ const Tables = () => {
       setSelectedTable(null);
     } else {
       setSelectedTable(id);
+    }
+  };
+
+  // Función para manejar el clic en el botón "Seleccionar"
+  const handleSelectTable = () => {
+    if (selectedTable) {
+      // Redirige a la página de "App" o donde desees después de seleccionar la mesa
+      navigate("/app", { state: { selectedTable } });  // Cambia "/app" por la ruta de tu elección
+    } else {
+      // Si no hay mesa seleccionada, muestra un error o alerta
+      alert("Por favor, selecciona una mesa.");
     }
   };
 
@@ -53,19 +65,23 @@ const Tables = () => {
           justifyItems: "center",
           alignItems: "center",
         }}>
-        {/* Mapear las mesas obtenidas del backend */}
         {mesas.map((mesa) => (
           <Table
             key={mesa.id}
             idMesa={mesa.numero}
             selected={selectedTable === mesa.numero}
             onClick={handleTableClick}
-            disponible={mesa.disponible}  // Pasar el estado disponible como prop
+            disponible={mesa.disponible}  
           />
         ))}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-        <Button variant="contained" color="success" size="large">
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={handleSelectTable}  // Llama a la función de selección
+        >
           Seleccionar
         </Button>
       </Box>

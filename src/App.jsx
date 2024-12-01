@@ -1,5 +1,6 @@
 import { Box, Container, Divider } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';  // Importa useLocation
 import Category from './components/Category/Category';
 import Dish from './components/Dish/Dish';
 import OrderSummary from './components/OrderSummary/OrderSummary';
@@ -22,6 +23,9 @@ const iconMap = {
 };
 
 const App = () => {
+  const location = useLocation();  // Usa useLocation para obtener el estado
+  const selectedTable = location.state?.selectedTable;  // Obtén la mesa seleccionada desde el estado
+
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -99,6 +103,7 @@ const App = () => {
         total={total}
         onEditName={() => setOpen(true)}
         onRemoveDish={handleRemoveDish}
+        selectedTable={selectedTable}  // Pasa el estado de la mesa seleccionada
       />
       <TableDialog open={open} onClose={() => setOpen(false)} />
     </Box>
