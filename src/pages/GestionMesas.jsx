@@ -1,5 +1,5 @@
 // GestionMesas.jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, List, ListItem, Typography, Modal, TextField, Button } from "@mui/material";
 import createApiUrl from "../api"; // Asegúrate de que este archivo api.js esté bien configurado
 

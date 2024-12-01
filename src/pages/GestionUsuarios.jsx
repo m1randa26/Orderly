@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, List, ListItem, Button, Typography, Modal, TextField, MenuItem } from "@mui/material";
 import createApiUrl from "../api"; // Verifica que esté correctamente configurado
 

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import MeseroScreen from './App.jsx';
 import AdminScreen from './pages/Admin.jsx';  // Página para ADMIN
-
+import Tables from './pages/Tables.jsx';
 import App from './App.jsx';
 
 const AppRouter = () => {
@@ -15,6 +15,7 @@ const AppRouter = () => {
         <Route path="/admin" element={<AdminScreen />} />  {/* Ruta para ADMIN */}
 
         <Route path="/app" element={<App />} />
+        <Route path="/tables" element={<Tables />} />
       </Routes>
     </Router>
   );
