@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, Paper, Typography } from "@mui/material"
 
-const Category = ({ name, totalItems, color, icon }) => {
+const Category = ({ name, totalItems, color, icon, onClick }) => {
     return (
         <Paper
             elevation={2}
@@ -11,7 +11,9 @@ const Category = ({ name, totalItems, color, icon }) => {
                 "&:hover": {
                     opacity: 0.7
                 }
-            }}>
+            }}
+            onClick={() => onClick(name)} // Llama a la función onClick con el nombre de la categoría
+            >
             <Box
                 sx={{
                     display: "flex",
@@ -37,7 +39,8 @@ Category.propTypes = {
     name: PropTypes.string.isRequired,
     totalItems: PropTypes.number.isRequired,
     color: PropTypes.string.isRequired,
-    icon: PropTypes.element.isRequired
+    icon: PropTypes.element.isRequired,
+    onClick: PropTypes.func.isRequired // Asegúrate de que onClick se pase como propiedad
 };
 
 export default Category

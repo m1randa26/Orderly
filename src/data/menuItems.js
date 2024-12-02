@@ -1,5 +1,5 @@
 const menuItems = [
-    { name: "Tacos al pastor", price: "$50" },
+    { name: "Base", price: "$50" },
     { name: "Burritos", price: "$80" },
     { name: "Enchiladas verdes", price: "$90" },
     { name: "Pozole rojo", price: "$120" },
