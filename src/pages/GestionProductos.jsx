@@ -5,7 +5,7 @@ import createApiUrl from "../api"; // Asegúrate de que esté configurado correc
 const GestionProductos = () => {
   const [productos, setProductos] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [newProducto, setNewProducto] = useState({ nombre: '', cantidad: '', precio: '', tipo: '' });
+  const [newProducto, setNewProducto] = useState({ nombre: '', cantidad: '', precio: '', categoria: '' });
   const [editProducto, setEditProducto] = useState(null);
 
   useEffect(() => {
@@ -27,12 +27,11 @@ const GestionProductos = () => {
       setEditProducto(producto);
       setNewProducto({ 
         nombre: producto.nombre, 
-        cantidad: producto.cantidad || '', 
         precio: producto.precio, 
-        tipo: producto.tipo 
+        categoria: producto.categoria 
       });
     } else {
-      setNewProducto({ nombre: '', cantidad: '', precio: '', tipo: '' });
+      setNewProducto({ nombre: '', precio: '', categoria: '' });
     }
     setOpenModal(true);
   };
@@ -114,7 +113,7 @@ const GestionProductos = () => {
           {productos.map((producto) => (
             <ListItem key={producto.id} sx={{ backgroundColor: "#333", marginBottom: 1, padding: 2, borderRadius: 1 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="body1">{producto.nombre} - ${producto.precio} ({producto.tipo})</Typography>
+                <Typography variant="body1">{producto.nombre} - ${producto.precio} ({producto.categoria})</Typography>
               </Box>
               <Button color="warning" onClick={() => handleOpenModal(producto)}>Editar</Button>
               <Button color="error" onClick={() => deleteProducto(producto.id)}>Eliminar</Button>
@@ -137,14 +136,7 @@ const GestionProductos = () => {
             onChange={(e) => setNewProducto({ ...newProducto, nombre: e.target.value })}
             margin="dense"
           />
-          <TextField
-            label="Cantidad"
-            type="number"
-            fullWidth
-            value={newProducto.cantidad}
-            onChange={(e) => setNewProducto({ ...newProducto, cantidad: e.target.value })}
-            margin="dense"
-          />
+          
           <TextField
             label="Precio"
             type="number"
@@ -154,10 +146,10 @@ const GestionProductos = () => {
             margin="dense"
           />
           <TextField
-            label="Tipo"
+            label="categoria"
             fullWidth
-            value={newProducto.tipo}
-            onChange={(e) => setNewProducto({ ...newProducto, tipo: e.target.value })}
+            value={newProducto.categoria}
+            onChange={(e) => setNewProducto({ ...newProducto, categoria: e.target.value })}
             margin="dense"
           />
           <Button onClick={handleSaveProducto} color="primary" fullWidth sx={{ mt: 2 }}>

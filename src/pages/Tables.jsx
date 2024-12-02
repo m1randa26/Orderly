@@ -1,33 +1,55 @@
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState } from "react";  // Importar useState
+import { useState, useEffect } from "react";  
 import Table from "../components/Table/Table";
+import createApiUrl from "../api"; 
+import { useNavigate } from "react-router-dom";  // Importar useNavigate
 
 const Tables = () => {
-  const [selectedTable, setSelectedTable] = useState(null);  // Estado para almacenar la mesa seleccionada
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [mesas, setMesas] = useState([]);  
+  const navigate = useNavigate();  // Inicializar el hook de navegación
 
-  // Función para manejar la selección/deselección de mesas
+  useEffect(() => {
+    const fetchMesas = async () => {
+      try {
+        const response = await fetch(createApiUrl('mesas'));
+        const data = await response.json();
+        setMesas(data);  
+      } catch (error) {
+        console.error("Error fetching tables:", error);
+      }
+    };
+
+    fetchMesas();  
+  }, []);
+
   const handleTableClick = (id) => {
     if (selectedTable === id) {
-      setSelectedTable(null);  // Deselecciona si la mesa ya está seleccionada
+      setSelectedTable(null);
     } else {
-      setSelectedTable(id);  // Selecciona la mesa
+      setSelectedTable(id);
+    }
+  };
+
+  // Función para manejar el clic en el botón "Seleccionar"
+  const handleSelectTable = () => {
+    if (selectedTable) {
+      // Redirige a la página de "App" o donde desees después de seleccionar la mesa
+      navigate("/app", { state: { selectedTable } });  // Cambia "/app" por la ruta de tu elección
+    } else {
+      // Si no hay mesa seleccionada, muestra un error o alerta
+      alert("Por favor, selecciona una mesa.");
     }
   };
 
   return (
     <Container>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          mt: 4
-        }}>
+      <Box sx={{ display: "flex", flexDirection: "column", mt: 4 }}>
         <Typography variant="h4" sx={{ color: "#fff", fontWeight: "bold" }}>
           Selecciona una mesa
         </Typography>
         <Alert severity="info" sx={{ mt: 3 }}>
-          Al seleccionar la mesa la orden estará asociada a la mesa
-          previamente seleccionada.
+          Al seleccionar la mesa, la orden estará asociada a la mesa previamente seleccionada.
         </Alert>
       </Box>
       <Box
@@ -43,17 +65,23 @@ const Tables = () => {
           justifyItems: "center",
           alignItems: "center",
         }}>
-        <Table idMesa={1} selected={selectedTable === 1} onClick={handleTableClick} />
-        <Table idMesa={3} selected={selectedTable === 3} onClick={handleTableClick} />
-        <Table idMesa={5} selected={selectedTable === 5} onClick={handleTableClick} />
-        <Table idMesa={8} selected={selectedTable === 8} onClick={handleTableClick} />
-        <Table idMesa={10} selected={selectedTable === 10} onClick={handleTableClick} />
-        <Table idMesa={25} selected={selectedTable === 25} onClick={handleTableClick} />
-        <Table idMesa={33} selected={selectedTable === 33} onClick={handleTableClick} />
-        <Table idMesa={2} selected={selectedTable === 2} onClick={handleTableClick} />
+        {mesas.map((mesa) => (
+          <Table
+            key={mesa.id}
+            idMesa={mesa.numero}
+            selected={selectedTable === mesa.numero}
+            onClick={handleTableClick}
+            disponible={mesa.disponible}  
+          />
+        ))}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-        <Button variant="contained" color="success" size="large">
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={handleSelectTable}  // Llama a la función de selección
+        >
           Seleccionar
         </Button>
       </Box>

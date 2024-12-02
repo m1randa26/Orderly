@@ -1,11 +1,11 @@
 import { Paper, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 
-const Table = ({ idMesa, selected, onClick }) => {
+const Table = ({ idMesa, selected, onClick, disponible }) => {
   return (
     <Paper
       elevation={3}
-      onClick={() => onClick(idMesa)}  // Maneja el clic para seleccionar/deseleccionar
+      onClick={() => onClick(idMesa)}
       sx={{
         display: "flex",
         alignItems: "center",
@@ -13,15 +13,25 @@ const Table = ({ idMesa, selected, onClick }) => {
         width: 150,
         height: 150,
         borderRadius: 2,
-        backgroundColor: selected ? "#3fa34d" : "#ebeff3", // Cambia el color si está seleccionada
-        cursor: "pointer", // Para indicar que es interactivo
-        transition: "background-color 0.3s ease", // Suaviza la transición de color
+        backgroundColor: selected
+          ? "#3fa34d"  // Verde si está seleccionada
+          : disponible
+          ? "#ebeff3"  // Gris claro si está disponible
+          : "#d32f2f", // Rojo si está ocupada
+        cursor: "pointer",
+        transition: "background-color 0.3s ease",
         '&:hover': {
-          backgroundColor: selected ? "#2a9134" : "#d1d9e6", // Cambio de color al pasar el mouse
+          backgroundColor: selected
+            ? "#2a9134"
+            : disponible
+            ? "#d1d9e6"
+            : "#b71c1c",  // Rojo más oscuro en hover si está ocupada
         },
       }}
     >
-      <Typography variant="h6" sx={{ color: selected ? "#fff" : "#000" }}>{idMesa}</Typography>
+      <Typography variant="h6" sx={{ color: selected ? "#fff" : "#000" }}>
+        {idMesa}
+      </Typography>
     </Paper>
   );
 };
@@ -30,6 +40,7 @@ Table.propTypes = {
   idMesa: PropTypes.number.isRequired,
   selected: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
+  disponible: PropTypes.bool.isRequired,  // Nueva prop para disponibilidad
 };
 
 export default Table;

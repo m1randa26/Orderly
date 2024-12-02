@@ -1,27 +1,16 @@
 import { Box, Container, Divider } from '@mui/material';
 import { useState } from 'react';
-import Category from './components/Category/Category';
+import { useLocation } from 'react-router-dom';
+import Categories from './components/Category/Categories.jsx'; // Importa el componente Categories
 import Dish from './components/Dish/Dish';
 import OrderSummary from './components/OrderSummary/OrderSummary';
-import categories from './data/categories';
 import menuItems from './data/menuItems';
-import { EggAlt, SoupKitchen,
-  RamenDining, Cookie, Liquor, LocalDrink, Restaurant, MenuBookSharp
-} from '@mui/icons-material';
 import TableDialog from './components/TableDialog';
 
-const iconMap = {
-  "Breakfast": <EggAlt />,
-  "Soup": <SoupKitchen />,
-  "Pasta": <RamenDining />,
-  "Dessert": <Cookie />,
-  "Liquor": <Liquor />,
-  "Drink": <LocalDrink />,
-  "Salad": <Restaurant />,
-  "Special": <MenuBookSharp />,
-};
-
 const App = () => {
+  const location = useLocation();
+  const selectedTable = location.state?.selectedTable;
+
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
   const [savedName, setSavedName] = useState("Nombre");
@@ -55,33 +44,14 @@ const App = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2 }}>
       <Container>
-        <Box sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr 1fr', // 2 columnas en pantallas pequeñas
-            sm: '1fr 1fr', // 2 columnas en pantallas medianas
-            md: '1fr 1fr 1fr 1fr', // 4 columnas en pantallas grandes
-          },
-          gap: 2,
-          mt: 5,
-        }}>
-          {categories.map(category => (
-            <Category
-              key={category.name}
-              name={category.name}
-              totalItems={category.total}
-              color={category.color}
-              icon={iconMap[category.icon]}
-            />
-          ))}
-        </Box>
+        <Categories /> {/* Usa el componente Categories aquí */}
         <Divider sx={{ mt: 5, bgcolor: "#323232" }} />
         <Box sx={{
           display: 'grid',
           gridTemplateColumns: {
-            xs: '1fr 1fr', // 2 columnas en pantallas pequeñas
-            sm: '1fr 1fr', // 2 columnas en pantallas medianas
-            md: '1fr 1fr 1fr 1fr', // 4 columnas en pantallas grandes
+            xs: '1fr 1fr',
+            sm: '1fr 1fr',
+            md: '1fr 1fr 1fr 1fr',
           },
           gap: 2,
           mt: 5,
@@ -105,6 +75,7 @@ const App = () => {
         onEditName={() => setOpen(true)}
         onRemoveDish={handleRemoveDish}
         name={savedName}
+        selectedTable={selectedTable}
       />
       <TableDialog open={open} onClose={() => setOpen(false)} onSave={handleSaveValue} />
     </Box>

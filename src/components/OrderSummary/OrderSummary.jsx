@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 
-const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, name }) => {
+const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, name, selectedTable }) => {
   return (
     <Paper elevation={3} sx={{
       width: { xs: "100%", md: 350 },
@@ -14,7 +14,8 @@ const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, 
       flexDirection: "column",
     }}>
       <Box>
-        <Typography variant="h6">Table 5</Typography>
+        {/* Mostrar el número de mesa seleccionado */}
+        <Typography variant="h6">Table {selectedTable}</Typography>
         <Box
           sx={{
             display: "flex",
@@ -80,7 +81,6 @@ const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, 
   );
 };
 
-// PropTypes validation
 OrderSummary.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -93,7 +93,8 @@ OrderSummary.propTypes = {
   total: PropTypes.number.isRequired,
   onRemoveDish: PropTypes.func.isRequired,
   onEditName: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  selectedTable: PropTypes.number.isRequired,  // Prop para el número de mesa
 };
 
 export default OrderSummary;
