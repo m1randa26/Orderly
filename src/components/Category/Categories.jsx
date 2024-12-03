@@ -6,6 +6,7 @@ import Restaurant from '@mui/icons-material/Restaurant'; // Icono de comida
 import SoupKitchen from '@mui/icons-material/SoupKitchen'; // Icono de sopa
 import MenuBookSharp from '@mui/icons-material/MenuBookSharp'; // Icono por defecto
 import createApiUrl from "../../api"; // Asegúrate de que este archivo api.js esté bien configurado
+import axios from 'axios';
 
 // Iconos asignados según la categoría
 const iconMap = {
@@ -20,6 +21,7 @@ const categoryColors = ["#cfdddb", "#e4cded", "#c2dbe9", "#c9caef", "#fac1d9", "
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [inventory, setInventory] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -47,8 +49,15 @@ const Categories = () => {
   }, []);
 
   // Función que maneja el clic en una categoría
-  const handleCategoryClick = (categoryName) => {
-    console.log('Categoría seleccionada:', categoryName);
+  const handleCategoryClick = async (categoryName) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/inventario/categoria/${categoryName}`);
+      setInventory(response.data.articulos);
+      console.log(inventory);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
 

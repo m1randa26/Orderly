@@ -9,7 +9,7 @@ import TableDialog from './components/TableDialog';
 
 const App = () => {
   const location = useLocation();
-  const selectedTable = location.state?.selectedTable;
+  const selectedTable = location.state?.selectedTable || 1;
 
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const App = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2 }}>
       <Container>
-        <Categories /> {/* Usa el componente Categories aquí */}
+        <Categories />
         <Divider sx={{ mt: 5, bgcolor: "#323232" }} />
         <Box sx={{
           display: 'grid',

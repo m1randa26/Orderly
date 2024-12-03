@@ -14,15 +14,15 @@ const Table = ({ idMesa, selected, onClick, disponible }) => {
         height: 150,
         borderRadius: 2,
         backgroundColor: selected
-          ? "#3fa34d"  // Verde si está seleccionada
+          ? "#1892d5"  // Verde si está seleccionada
           : disponible
-          ? "#ebeff3"  // Gris claro si está disponible
+          ? "#2e7d32"  // Gris claro si está disponible
           : "#d32f2f", // Rojo si está ocupada
         cursor: "pointer",
         transition: "background-color 0.3s ease",
         '&:hover': {
           backgroundColor: selected
-            ? "#2a9134"
+            ? "#1892d5"
             : disponible
             ? "#d1d9e6"
             : "#b71c1c",  // Rojo más oscuro en hover si está ocupada

@@ -152,7 +152,7 @@ const GestionProductos = () => {
             onChange={(e) => setNewProducto({ ...newProducto, categoria: e.target.value })}
             margin="dense"
           />
-          <Button onClick={handleSaveProducto} color="primary" fullWidth sx={{ mt: 2 }}>
+          <Button onClick={handleSaveProducto} color="primary" fullWidth sx={{ mt: 2 }} variant="outlined">
             {editProducto ? 'Guardar Cambios' : 'Agregar Producto'}
           </Button>
         </Box>

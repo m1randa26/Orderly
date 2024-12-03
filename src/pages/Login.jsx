@@ -23,7 +23,7 @@ const Login = () => {
     setError(null); // Limpiar el error antes de hacer la solicitud
 
     try {
-      const response = await axios.post('http://192.168.1.11:8080/api/usuarios/login', {
+      const response = await axios.post('http://localhost:8080/api/usuarios/login', {
         email,
         password
       });
