@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -10,6 +11,11 @@ import {
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import axios from "axios";
+=======
+import { Box, Container, Typography } from "@mui/material"
+import Filter from "../components/OrderFilter/Filter"
+import Order from "../components/Order/OrderFactura";
+>>>>>>> orden
 
 const Orders = () => {
   const [ordenes, setOrdenes] = useState([]);

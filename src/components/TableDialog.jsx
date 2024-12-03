@@ -24,7 +24,7 @@ const TableDialog = ({ open, onClose, onSave }) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries(formData.entries());
-          console.log(formJson);
+          //console.log(formJson); //Aqui imprime el objeto con el nombre del mesero
           onClose();
         },
       }}

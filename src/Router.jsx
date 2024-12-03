@@ -8,6 +8,7 @@ import App from './App.jsx';
 import Orders from './pages/Orders.jsx';
 import MenuPage from './components/Menu/Menu.jsx';
 import ProductDetail from './components/Menu/Info.jsx';
+import Factura from './pages/Factura.jsx';
 
 const AppRouter = () => {
   return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
          {/* Ruta para MENU */}
          <Route path="/menuqr" element={<MenuPage />} />
          <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/factura" element={<Factura />} />
       </Routes>
     </Router>
   );
