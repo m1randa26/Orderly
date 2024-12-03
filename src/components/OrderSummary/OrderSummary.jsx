@@ -2,7 +2,6 @@ import { Box, Paper, Divider, Typography, IconButton, Button } from '@mui/materi
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
-import { useEffect } from 'react';
 import createApiUrl from '../../api';
 
 const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, selectedTable, orderData }) => {
@@ -133,7 +132,11 @@ OrderSummary.propTypes = {
   total: PropTypes.number.isRequired,
   onRemoveDish: PropTypes.func.isRequired,
   onEditName: PropTypes.func.isRequired,
-  selectedTable: PropTypes.number.isRequired,  // Prop para el número de mesa
+  selectedTable: PropTypes.number.isRequired,
+  orderData: PropTypes.shape({
+    articulosIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+    mesa: PropTypes.string.isRequired,
+    mesero: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
 export default OrderSummary;
