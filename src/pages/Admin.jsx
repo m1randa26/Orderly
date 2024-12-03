@@ -8,6 +8,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import GestionMesas from './GestionMesas'; // Importamos el nuevo componente
 import GestionProductos from './GestionProductos.jsx';
 import GestionUsuarios from './GestionUsuarios.jsx';
+import GestionGanancias from './GestionGanancias.jsx';
 
 
 const AdminMenu = () => {
@@ -56,6 +57,7 @@ const AdminMenu = () => {
         {selectedIndex === 2 && <GestionMesas />}
         {selectedIndex === 0 && <GestionProductos />}
         {selectedIndex === 1 && <GestionUsuarios />}
+        {selectedIndex === 3 && <GestionGanancias />}
       </Box>
     </Box>
   );

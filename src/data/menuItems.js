@@ -1,19 +1,23 @@
-const menuItems = [
-    { name: "Base", price: "$50" },
-    { name: "Burritos", price: "$80" },
-    { name: "Enchiladas verdes", price: "$90" },
-    { name: "Pozole rojo", price: "$120" },
-    { name: "Tamales de pollo", price: "$35" },
-    { name: "Quesadillas", price: "$40" },
-    { name: "Sopes", price: "$60" },
-    { name: "Chiles en nogada", price: "$150" },
-    { name: "Pasta al pesto", price: "$110" },
-    { name: "Pizza Margarita", price: "$130" },
-    { name: "Hamburguesa clásica", price: "$90" },
-    { name: "Sushi rolls", price: "$180" },
-    { name: "Ramen", price: "$120" },
-    { name: "Paella", price: "$200" },
-    { name: "Ceviche de camarón", price: "$140" },
-];
+import createApiUrl from "../api";
 
-export default menuItems;
+const fetchMenuItems = async (categoryName) => {
+    try {
+        // Hacemos la solicitud al endpoint, usando el nombre de la categoría
+        const response = await fetch(createApiUrl(`inventario/categoria/${categoryName}`));
+        const data = await response.json();
+
+        // Reorganizamos los datos como lo solicitaste
+        const menuItems = data.articulos.map(item => ({
+            id: item.id,
+            name: item.nombre,
+            price: `$${item.precio.toFixed(2)}`, // Aseguramos que el precio tenga dos decimales
+        }));
+
+        return menuItems;
+    } catch (error) {
+        console.error("Error al obtener los elementos del menú:", error);
+        return [];
+    }
+};
+
+export default fetchMenuItems;

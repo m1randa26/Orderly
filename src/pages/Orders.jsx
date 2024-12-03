@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material"
 import Filter from "../components/OrderFilter/Filter"
-import Order from "../components/Order/Order";
+import Order from "../components/Order/OrderFactura";
 
 const Orders = () => {
 

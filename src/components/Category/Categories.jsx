@@ -6,6 +6,8 @@ import Restaurant from '@mui/icons-material/Restaurant'; // Icono de comida
 import SoupKitchen from '@mui/icons-material/SoupKitchen'; // Icono de sopa
 import MenuBookSharp from '@mui/icons-material/MenuBookSharp'; // Icono por defecto
 import createApiUrl from "../../api"; // Asegúrate de que este archivo api.js esté bien configurado
+import fetchMenuItems from '../../data/menuItems';  // Importamos la función que obtiene los items
+
 
 // Iconos asignados según la categoría
 const iconMap = {
@@ -18,8 +20,9 @@ const iconMap = {
 // Colores predefinidos para las categorías
 const categoryColors = ["#cfdddb", "#e4cded", "#c2dbe9", "#c9caef", "#fac1d9", "#e5dade", "#f1c8d0"];
 
-const Categories = () => {
+const Categories = ({ setMenuItems }) => {
   const [categories, setCategories] = useState([]);
+  
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,9 +49,11 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
-  // Función que maneja el clic en una categoría
-  const handleCategoryClick = (categoryName) => {
+  const handleCategoryClick = async (categoryName) => {
     console.log('Categoría seleccionada:', categoryName);
+    // Ahora, cuando una categoría es seleccionada, obtenemos los items correspondientes
+    const menuItems = await fetchMenuItems(categoryName);
+    setMenuItems(menuItems); // Pasamos los items obtenidos a través de setMenuItems
   };
 
 

@@ -2,11 +2,51 @@ import { Box, Paper, Divider, Typography, IconButton, Button } from '@mui/materi
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
+import { useEffect } from 'react';
+import createApiUrl from '../../api';
 
-const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, name, selectedTable }) => {
+const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, selectedTable, orderData }) => {
+
+  const handleSubmitOrder = async () => {
+    // Asegúrate de que los campos sean correctos
+    console.log('Datos de la orden:', orderData);
+
+    if (!orderData.articulosIds.length || !orderData.mesa || !orderData.mesero) {
+      alert('Faltan datos para enviar la orden');
+      return;
+    }
+  
+    try {
+      console.log('Enviando orden:', orderData);  // Depuración antes del envío
+  
+      const response = await fetch(createApiUrl('ordenes'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json(); // Obtener detalles del error
+        console.error('Detalles del error:', errorData);
+        throw new Error(errorData.message || 'Error al enviar la orden');
+      }
+  
+      const result = await response.json();
+      console.log('Orden enviada:', result);
+      alert('¡Orden enviada con éxito!');
+    } catch (error) {
+      console.error('Error al enviar la orden:', error.message);
+      alert(`Error: ${error.message}`);
+    }
+  };
+  
+
   return (
     <Paper elevation={3} sx={{
       width: { xs: "100%", md: 350 },
+      height: "100vh",
       bgcolor: "#1c1c1e",
       color: "white",
       padding: 2,
@@ -76,14 +116,14 @@ const OrderSummary = ({ orders, subtotal, tax, total, onRemoveDish, onEditName, 
           <Typography variant="h6">${total.toFixed(2)}</Typography>
         </Box>
       </Box>
-      <Button variant="contained" color="primary" fullWidth>Enviar orden</Button>
+      <Button variant="contained" color="primary" fullWidth  onClick={handleSubmitOrder}>Enviar orden</Button>
     </Paper>
   );
 };
 
 OrderSummary.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
     price: PropTypes.string.isRequired,
@@ -93,7 +133,6 @@ OrderSummary.propTypes = {
   total: PropTypes.number.isRequired,
   onRemoveDish: PropTypes.func.isRequired,
   onEditName: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
   selectedTable: PropTypes.number.isRequired,  // Prop para el número de mesa
 };
 

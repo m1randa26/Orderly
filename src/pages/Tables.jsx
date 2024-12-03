@@ -42,6 +42,15 @@ const Tables = () => {
     }
   };
 
+  const handleSelectTableFactura = () => {
+    if (selectedTable) {
+      navigate("/factura", { state: { selectedTable } });
+    } else {
+      alert("Por favor, selecciona una mesa.");
+    }
+  };
+  
+
   return (
     <Container>
       <Box sx={{ display: "flex", flexDirection: "column", mt: 4 }}>
@@ -82,7 +91,15 @@ const Tables = () => {
           size="large"
           onClick={handleSelectTable}  // Llama a la función de selección
         >
-          Seleccionar
+          Crear Orden
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={handleSelectTableFactura}  // Llama a la función de selección
+        >
+          Cerrar Orden
         </Button>
       </Box>
     </Container>
