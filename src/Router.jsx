@@ -6,6 +6,8 @@ import AdminScreen from './pages/Admin.jsx';  // Página para ADMIN
 import Tables from './pages/Tables.jsx';
 import App from './App.jsx';
 import Orders from './pages/Orders.jsx';
+import MenuPage from './components/Menu/Menu.jsx';
+import ProductDetail from './components/Menu/Info.jsx';
 
 const AppRouter = () => {
   return (
@@ -18,6 +20,9 @@ const AppRouter = () => {
         <Route path="/app" element={<App />} />
         <Route path="/tables" element={<Tables />} />
         <Route path="/orders" element={<Orders />} />
+         {/* Ruta para MENU */}
+         <Route path="/menuqr" element={<MenuPage />} />
+         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </Router>
   );
